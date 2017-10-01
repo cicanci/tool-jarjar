@@ -23,58 +23,67 @@ namespace Editor.JarJar
         {
             Debug.LogFormat("Android package name '{0}'", Application.identifier);
 
-            string path = Application.dataPath + "/Plugins/Android/";
-            if (!Directory.Exists(path))
+            string androidPath = Application.dataPath + "/Plugins/Android/";
+            if (!Directory.Exists(androidPath))
             {
-                Debug.LogWarningFormat("Path not found '{0}'", path);
+                Debug.LogWarningFormat("Path not found '{0}'", androidPath);
             }
             else
             {
-                Debug.LogFormat("Looking for ARR files in '{0}'", path);
+                Debug.LogFormat("Looking for ARR files in '{0}'", androidPath);
 
-                var files = Directory.GetFiles(path, "*.aar", SearchOption.AllDirectories).ToList();
+                var files = Directory.GetFiles(androidPath, "*.aar", SearchOption.AllDirectories).ToList();
                 if (files.Count == 0)
                 {
-                    Debug.LogWarningFormat("No AARs found in '{0}'", path);
+                    Debug.LogWarningFormat("No AARs found in '{0}'", androidPath);
                 }
                 else
                 {
+                    string outputPath = Application.dataPath.Replace("/Assets", "/_jarjar");
+
                     for (int i = 0; i < files.Count; i++)
                     {
-                        ExtractFile(files[i]);
-                        UpdateIdentifier(files[i]);
+                        ExtractFile(files[i], outputPath);
+                        UpdateIdentifier(files[i], outputPath);
+                        CreateFile(files[i], outputPath, androidPath);
                     }
+
+                    Directory.Delete(outputPath, true);
                 }
             }
         }
 
-        private static void ExtractFile(string file)
+        private static void ExtractFile(string filePath, string outputPath)
         {
-            string path = Application.dataPath.Replace("/Assets", "/_jarjar");
-            Debug.LogFormat("ExtractFile: {0} to {1}", file, path);
-            Unzip(file, path);
+            Debug.LogFormat("ExtractFile: {0} to {1}", filePath, outputPath);
+            Unzip(filePath, outputPath);
         }
 
-        private static void UpdateIdentifier(string file)
+        private static void UpdateIdentifier(string filePath, string outputPath)
         {
-            string path = "C:/Projects/tool-jarjar/Assets/Plugins/Android/AndroidManifest.xml";
-            Debug.LogFormat("UpdateIdentifier: {0}", path);
+            outputPath += "/AndroidManifest.xml";
+            Debug.LogFormat("UpdateIdentifier: {0}", outputPath);
 
             XmlDocument document = new XmlDocument();
-            document.Load(path);
+            document.Load(outputPath);
 
             XmlNode root = document.DocumentElement;
             if (root == null || root.Attributes == null)
             {
-                Debug.LogErrorFormat("Invalid XML file '{0}'", path);
+                Debug.LogErrorFormat("Invalid XML file '{0}'", outputPath);
             }
             else
             {
                 root.Attributes["package"].Value = Application.identifier;
-                document.Save(path);
+                document.Save(outputPath);
             }
         }
-    
+
+        private static void CreateFile(string filePath, string outputPath, string androidPath)
+        {
+            
+        }
+
         public static void Unzip(string zipFilePath, string location)
         {
             Directory.CreateDirectory(location);
