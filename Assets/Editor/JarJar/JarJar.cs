@@ -55,14 +55,13 @@ namespace Editor.JarJar
 
         private static void ExtractFile(string filePath, string outputPath)
         {
-            Debug.LogFormat("ExtractFile: {0} to {1}", filePath, outputPath);
+            Debug.LogFormat("Extract file from '{0}' to '{1}'", filePath, outputPath);
             Unzip(filePath, outputPath);
         }
 
         private static void UpdateIdentifier(string filePath, string outputPath)
         {
             outputPath += "/AndroidManifest.xml";
-            Debug.LogFormat("UpdateIdentifier: {0}", outputPath);
 
             XmlDocument document = new XmlDocument();
             document.Load(outputPath);
@@ -74,6 +73,7 @@ namespace Editor.JarJar
             }
             else
             {
+                Debug.LogFormat("Update identifier from '{0}' to '{1}'", root.Attributes["package"].Value, Application.identifier);
                 root.Attributes["package"].Value = Application.identifier;
                 document.Save(outputPath);
             }
