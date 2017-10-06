@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using Ionic.Zip;
+using NUnit.Framework.Constraints;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ namespace Editor.JarJar
 {
     public class JarJar : MonoBehaviour 
     {
-        [MenuItem("Tools/Update AAR with JarJar")]
+        [MenuItem("Tools/Android/Update AAR with JarJar")]
         public static void UpdateWithJarJar()
         {
 #if UNITY_ANDROID
@@ -45,7 +47,7 @@ namespace Editor.JarJar
                     {
                         ExtractFile(files[i], outputPath);
                         UpdateIdentifier(files[i], outputPath);
-                        CreateFile(files[i], outputPath, androidPath);
+                        CreateFile(files[i], outputPath);
                     }
 
                     Directory.Delete(outputPath, true);
@@ -79,31 +81,31 @@ namespace Editor.JarJar
             }
         }
 
-        private static void CreateFile(string filePath, string outputPath, string androidPath)
+        private static void CreateFile(string filePath, string outputPath)
         {
             string[] files = Directory.GetFiles(outputPath, "*", SearchOption.AllDirectories).ToArray();
-            for (int i = 0; i < files.Length; i++)
-            {
-                files[i] = files[i].Replace(outputPath, string.Empty);
-            }
-            Zip(filePath, files);
+            Zip(filePath, files, outputPath);
         }
 
         public static void Unzip(string zipFilePath, string location)
         {
             Directory.CreateDirectory(location);
-
             using (ZipFile zip = ZipFile.Read(zipFilePath)) 
             {
                 zip.ExtractAll(location, ExtractExistingFileAction.OverwriteSilently);
             }
         }
 
-        public static void Zip(string zipFileName, params string[] files)
+        public static void Zip(string zipFileName, string[] files, string outputPath)
         {
+            Debug.LogFormat("Zipping {0} files at '{1}'", files.Length, zipFileName);
             using (ZipFile zip = new ZipFile()) 
             {
-                zip.AddFiles(files, true, string.Empty);
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string filePath = files[i].Replace(outputPath, string.Empty).Replace(Path.GetFileName(files[i]), string.Empty);
+                    zip.AddFile(files[i], filePath);
+                }
                 zip.Save(zipFileName);
             }
         }
