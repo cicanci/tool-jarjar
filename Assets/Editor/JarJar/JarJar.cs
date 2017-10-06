@@ -18,7 +18,7 @@ namespace Editor.JarJar
         private static string _androidPath;
         private static string _outputPath;
 
-        [MenuItem("Tools/Android/Update AAR with JarJar")]
+        [MenuItem("Tools/Android/Update AAR and AndroidManifest with JarJar")]
         public static void UpdateWithJarJar()
         {
 #if UNITY_ANDROID
@@ -36,7 +36,7 @@ namespace Editor.JarJar
                 {
                     RunJarJarForLibrary();
                     RunJarJarForManifest();
-                    Debug.Log("[JarJar] All AAR files were updated!");
+                    Debug.Log("[JarJar] All AAR and AndroidManifest files were updated!");
                 }
                 catch (Exception e)
                 {
