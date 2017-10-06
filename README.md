@@ -14,15 +14,15 @@ Import the JarJar plugin in Unity `Assets/Import Package/Custom Packages...`, yo
 
 After the plugin import is done, an option will appear in the Unity Editor menu: `Tools/Android/Update AAR and AndroidManifest with JarJar`, just click and wait. Android should be the selected platform before run it.
 
-### Project
+## Project
 
 JarJar uses the amazing [UniZip](https://github.com/tsubaki/UnityZip). The [Google Play Games Plugin for Unity](https://github.com/playgameservices/play-games-plugin-for-unity) is in this project only for test purpose, it is not part of the plugin.
 
-### Log
+## Log
 
 You can enable a debug log by adding `DEBUG_JARJAR` in the Scripting Define Symbols section located at the Player Settings, this will print more information about the JarJar process.
 
-### Results
+## Results
 
 This is an empty Unity project with the Google Play Games Plugin for Unity imported. The android build generates 16 `R.java` files, which may cause the [multidex problem](https://issuetracker.unity3d.com/issues/android-the-rjava-generated-by-unity-during-android-compilation-is-too-big-which-causes-rjava-refer-to-all-resources).
 
