@@ -82,6 +82,10 @@ namespace Editor.JarJar
         private static void CreateFile(string filePath, string outputPath, string androidPath)
         {
             string[] files = Directory.GetFiles(outputPath, "*", SearchOption.AllDirectories).ToArray();
+            for (int i = 0; i < files.Length; i++)
+            {
+                files[i] = files[i].Replace(outputPath, string.Empty);
+            }
             Zip(filePath, files);
         }
 
@@ -99,7 +103,7 @@ namespace Editor.JarJar
         {
             using (ZipFile zip = new ZipFile()) 
             {
-                zip.AddFiles(files, true, "");
+                zip.AddFiles(files, true, string.Empty);
                 zip.Save(zipFileName);
             }
         }
