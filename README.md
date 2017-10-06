@@ -1,4 +1,4 @@
-# Extract JAR files from AAR files
+# JarJar Unity plugin for AAR files
 
 Kinda fixes the [multidex problem](https://issuetracker.unity3d.com/issues/android-the-rjava-generated-by-unity-during-android-compilation-is-too-big-which-causes-rjava-refer-to-all-resources) when using a lot of AAR files on Unity.
 
@@ -12,7 +12,7 @@ JarJar replaces the package name in the `AndroidManiest.xml` files that he finds
 
 Import the JarJar plugin in Unity `Assets/Import Package/Custom Packages...`, you can find the latest version [here](https://github.com/cicanci/tool-jarjar/releases).
 
-After the plugin import is done, an option will appear in the Unity Editor menu: `Tools/Android/Update AAR and AndroidManifest with JarJar`, just click and wait. Android should be the selected platform before run it.
+After the plugin import is done, an option will appear in the Unity Editor menu `Tools/Android/Update AAR and AndroidManifest with JarJar`, just click and wait. Android should be the selected platform before run it.
 
 ## Project
 
