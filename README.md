@@ -6,38 +6,16 @@ Kinda not.
 
 ![Jar Jar](http://unrealitymag.com/wp-content/uploads/2015/11/Star-Wars-Jar-Jar-Binks-banner.png)
 
+JarJar replaces the package name in the `AndroidManiest.xml` files that he finds inside all AAR files in the Plugins/Android folder. He also loos for `AndroidManifest.xml` files and update them. The new package name is the one set in the Player Settings. 
+
 ## Usage
 
-```
-python jarjar.py PATH_TO_AAR_FILES
-```
+Import the JarJar plugin in Unity (Assets/Import Package/Custom Packages...), you can find the latest version [here](https://github.com/cicanci/tool-jarjar/releases).
 
-## Example
-
-```
-python jarjar.py /Developer/Projects/TestProject/Assets/Plugins/Android
-```
-
-## Output
-
-The script will generate two directories:
-
-`_binks` contains the JAR files, renamed to match each AAR file
-
-`_gungan` all content extracted from each AAR file (useful to get the res directory)
-
+After the plugin import is done, an option will appear in the Unity Editor menu: Tools/Android/Update AAR and AndroidManifest with JarJar, just click and wait. Android should be the selected platform before run it.
 
 ### Log
 
-```
-AAR location: /Developer/Projects/TestProject/Assets/Plugins/Android
-Extracting JAR from play-services-auth-9.6.1.aar
-Extracting JAR from play-services-auth-base-9.6.1.aar
-Extracting JAR from play-services-base-9.6.1.aar
-Extracting JAR from play-services-basement-9.6.1.aar
-Extracting JAR from play-services-drive-9.6.1.aar
-Extracting JAR from play-services-games-9.6.1.aar
-Extracting JAR from play-services-nearby-9.6.1.aar
-Extracting JAR from play-services-tasks-9.6.1.aar
-Extracting JAR from support-v4-24.0.0.aar
-```
+You can enable a debug log by adding `DEBUG_JARJAR` in the Scripting Define Symbols section located at the Player Settings.
+
+### Results
